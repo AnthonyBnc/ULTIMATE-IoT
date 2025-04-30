@@ -25,6 +25,7 @@ type SensorData = {
 
 const Home = () => {
   const { data, isLoading } = api.sensorData.countAlert.useQuery();
+  const {data: allData} = api.sensorData.getAll.useQuery()
   const [sensorData, setSensorData] = useState<SensorData>();
 
   const fetchLiveData = async () => {
@@ -57,7 +58,9 @@ const Home = () => {
     getData();
 
     const intervalId = setInterval(() => {
+      
       getData();
+
     }, 600000);
 
     return () => clearInterval(intervalId);
@@ -204,7 +207,7 @@ const Home = () => {
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview />
+                  <Overview data={allData} />
                 </CardContent>
               </Card>
               <Card className="col-span-3">
