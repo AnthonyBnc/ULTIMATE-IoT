@@ -9,17 +9,17 @@ export const NavItems: NavItem[] = [
     color: "text-sky-500",
   },
   {
-    title: "Example",
+    title: "Table",
     icon: BookOpenCheck,
-    href: "/example",
+    href: "/table",
     color: "text-orange-500",
     isChildren: true,
     children: [
       {
-        title: "Example-01",
+        title: "Table",
         icon: BookOpenCheck,
         color: "text-red-500",
-        href: "/example/employees",
+        href: "/example/table",
       },
       // {
       //   title: "Example-02",
