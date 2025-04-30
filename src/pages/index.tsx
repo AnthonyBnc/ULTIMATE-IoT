@@ -24,8 +24,7 @@ type SensorData = {
 };
 
 const Home = () => {
-  // const { data } = api.sensorData.getLiveData.useQuery()
-  // console.log(data)
+  const { data, isLoading } = api.sensorData.countAlert.useQuery();
   const [sensorData, setSensorData] = useState<SensorData>();
 
   const fetchLiveData = async () => {
@@ -164,7 +163,7 @@ const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {sensorData? sensorData.humidity : "Loading "}%
+                    {sensorData ? sensorData.humidity : "Loading "}%
                   </div>
                   {/* <p className="text-xs text-muted-foreground">
                     +19% from last month
@@ -210,9 +209,11 @@ const Home = () => {
               </Card>
               <Card className="col-span-3">
                 <CardHeader>
-                  <CardTitle> Alert History</CardTitle>
+                  <CardTitle> Alert History </CardTitle>
                   <CardDescription>
-                    You made 265 sales this month.
+                    {isLoading
+                      ? "data is loading..."
+                      : data + " alerts in the past hour"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

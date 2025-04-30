@@ -1,4 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import dayjs from "dayjs";
 
 const alertMessages: Record<string, string> = {
   "E001": "DHT11 sensor error",
@@ -35,4 +36,18 @@ export const sensorDataRouter = createTRPCRouter({
             timestamp: string 
         }
     }),
+
+    countAlert: publicProcedure.query(async ({ ctx }) => {
+        const oneHourAgo = dayjs().subtract(1, 'hour').toDate();
+      
+        const countAlert = await ctx.prisma.sensorData.count({
+          where: {
+            timestamp: {
+              gte: oneHourAgo,
+            },
+          },
+        });
+      
+        return countAlert;
+      }),
 })
