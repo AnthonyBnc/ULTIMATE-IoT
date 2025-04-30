@@ -75,3 +75,13 @@ model Employee {
     createAt DateTime @default(now()) @map("create_at")
     updateAt DateTime @default(now()) @updatedAt @map("update_at")
 }
+model SensorData {
+  id            Int      @id @default(autoincrement())
+  timestamp     DateTime @default(now())
+  temperature   Float?
+  humidity      Float?
+  soil_moisture Float?
+  alert_code    String?
+
+  @@map("sensor_data") // maps to your actual table name in PostgreSQL
+}

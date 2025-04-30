@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table/data-table";
-import { type EmployeeColumn } from "@/lib/validators";
+import { type SensorDataColumn } from "@/lib/validators";
 import { columns } from "./columns";
 
-interface EmployeeClientProps {
-  data: EmployeeColumn[];
+interface SensorDataClientProps {
+  data: SensorDataColumn[];
 }
-export const EmployeeClient = ({ data }: EmployeeClientProps) => {
-  const router = useRouter();
+export const EmployeeClient = ({ data }: SensorDataClientProps) => {
+  // const router = useRouter();
 
   return (
     <>
