@@ -30,12 +30,13 @@
 // export default Employee;
 
 
-export const Huy = () => {
+ const Huy = () => {
   return (
     <div>
     </div>
   )
 }
+export default Huy
 
 
 
