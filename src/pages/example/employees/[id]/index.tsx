@@ -31,7 +31,10 @@
 
 
 export const Huy = () => {
-  return null
+  return (
+    <div>
+    </div>
+  )
 }
 
 
