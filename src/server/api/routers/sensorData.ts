@@ -34,5 +34,5 @@ export const sensorDataRouter = createTRPCRouter({
             temperature: number,
             timestamp: string 
         }
-    })
+    }),
 })

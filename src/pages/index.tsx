@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
 import { Overview } from "@/components/dashboard/overview";
-import { RecentSales } from "@/components/dashboard/recent-sales";
+import { RecentSales } from "@/components/dashboard/alert_message";
 import { api } from "@/utils/api";
 
 type SensorData = {
@@ -110,9 +110,9 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.temperature : "Loading "}°C
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  {/* <p className="text-xs text-muted-foreground">
                     +20.1% from last month
-                  </p>
+                  </p> */}
                 </CardContent>
               </Card>
               <Card>
@@ -137,9 +137,9 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.humidity : "Loading "}%
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  {/* <p className="text-xs text-muted-foreground">
                     +180.1% from last month
-                  </p>
+                  </p> */}
                 </CardContent>
               </Card>
               <Card>
@@ -166,9 +166,9 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData? sensorData.humidity : "Loading "}%
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  {/* <p className="text-xs text-muted-foreground">
                     +19% from last month
-                  </p>
+                  </p> */}
                 </CardContent>
               </Card>
               <Card>
@@ -193,9 +193,9 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.alert_code : "Loading "}
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  {/* <p className="text-xs text-muted-foreground">
                     +201 since last hour
-                  </p>
+                  </p> */}
                 </CardContent>
               </Card>
             </div>
