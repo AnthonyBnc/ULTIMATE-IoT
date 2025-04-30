@@ -22,5 +22,17 @@ export const sensorDataRouter = createTRPCRouter({
             ...item,
             alert_message: item.alert_code ? alertMessages[item.alert_code] || item.alert_code : "No alert"
         }));
+    }),
+
+    getLiveData: publicProcedure.query(async () => {
+        const res = await fetch(`https://55fe-2405-6e00-22ee-fb7-d08-249b-c6fa-67b6.ngrok-free.app/api/latest-data`)
+        return (await res.json()) as {
+            alert_code: string,
+            humidity: number,
+            id: number,
+            soil_moisture: number,
+            temperature: number,
+            timestamp: string 
+        }
     })
 })

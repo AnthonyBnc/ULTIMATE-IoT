@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   CardHeader,
@@ -12,17 +12,66 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
 import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/recent-sales";
+import { api } from "@/utils/api";
+
+type SensorData = {
+  alert_code: string;
+  humidity: number;
+  id: number;
+  soil_moisture: number;
+  temperature: number;
+  timestamp: string;
+};
 
 const Home = () => {
+  // const { data } = api.sensorData.getLiveData.useQuery()
+  // console.log(data)
+  const [sensorData, setSensorData] = useState<SensorData>();
+
+  const fetchLiveData = async () => {
+    const res = await fetch(
+      `https://55fe-2405-6e00-22ee-fb7-d08-249b-c6fa-67b6.ngrok-free.app/api/latest-data`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+        },
+      }
+    );
+
+    console.log(res.status);
+    return (await res.json()) as {
+      alert_code: string;
+      humidity: number;
+      id: number;
+      soil_moisture: number;
+      temperature: number;
+      timestamp: string;
+    };
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await fetchLiveData();
+      setSensorData(data);
+    };
+
+    getData();
+
+    const intervalId = setInterval(() => {
+      getData();
+    }, 600000);
+
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <CalendarDateRangePicker />
             <Button size="sm">Download</Button>
-          </div>
+          </div> */}
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
           {/* <TabsList>
@@ -54,11 +103,13 @@ const Home = () => {
                     strokeWidth="2"
                     className="h-4 w-4 text-muted-foreground"
                   >
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    <path d="M14 14.76V3.5a2.5 2.5 0 1 0-5 0v11.26a5 5 0 1 0 5 0Z" />
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
+                  <div className="text-2xl font-bold">
+                    {sensorData ? sensorData.temperature : "Loading "}°C
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>
@@ -67,7 +118,7 @@ const Home = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                   Humidity
+                    Humidity
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -79,13 +130,13 @@ const Home = () => {
                     strokeWidth="2"
                     className="h-4 w-4 text-muted-foreground"
                   >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                    <path d="M12 2.69l.94 1.06C16.19 7.24 18 10 18 12.5a6 6 0 0 1-12 0c0-2.5 1.81-5.26 5.06-8.75L12 2.69z" />
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+2350</div>
+                  <div className="text-2xl font-bold">
+                    {sensorData ? sensorData.humidity : "Loading "}%
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +180.1% from last month
                   </p>
@@ -93,32 +144,8 @@ const Home = () => {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Soil Moisture</CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <rect width="20" height="14" x="2" y="5" rx="2" />
-                    <path d="M2 10h20" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
-                  <p className="text-xs text-muted-foreground">
-                    +19% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Alert
+                    Soil Moisture
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -130,11 +157,42 @@ const Home = () => {
                     strokeWidth="2"
                     className="h-4 w-4 text-muted-foreground"
                   >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    <path d="M12 2C12 2 7 8 7 11a5 5 0 0 0 10 0c0-3-5-9-5-9z" />
+                    <line x1="4" y1="20" x2="20" y2="20" />
+                    <line x1="6" y1="16" x2="18" y2="16" />
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+573</div>
+                  <div className="text-2xl font-bold">
+                    {sensorData? sensorData.humidity : "Loading "}%
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    +19% from last month
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Alert</CardTitle>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="h-4 w-4 text-muted-foreground"
+                  >
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {sensorData ? sensorData.alert_code : "Loading "}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +201 since last hour
                   </p>

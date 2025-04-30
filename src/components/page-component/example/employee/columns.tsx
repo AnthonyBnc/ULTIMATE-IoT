@@ -35,14 +35,14 @@ export const columns: ColumnDef<SensorDataColumn>[] = [
     header: "Time Stamp",
     cell: ({ row }) => {
       const date = new Date(row.original.timestamp);
-      const formattedDate = date.toLocaleString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
+      const formattedDate = date.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
       });
       return <div>{formattedDate}</div>;
     },
@@ -50,17 +50,30 @@ export const columns: ColumnDef<SensorDataColumn>[] = [
   {
     accessorKey: "temperature",
     header: "Temperature",
-    cell: ({ row }) => <div>{row.original.temperature}°C</div>,
+    cell: ({ row }) => (
+      <div>
+        {row.original.temperature ? row.original.temperature : "Null "}°C
+      </div>
+    ),
   },
   {
     accessorKey: "soil_moisture",
     header: "Soil Moisture",
-    cell: ({ row }) => <div>{row.original.soil_moisture}%</div>,
+    cell: ({ row }) => {
+      const value = row.original.soil_moisture;
+      return (
+        <div>
+          {value !== null && value !== undefined ? `${value}%` : "Null %"}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "humidity",
     header: "Humidity",
-    cell: ({ row }) => <div>{row.original.humidity}%</div>,
+    cell: ({ row }) => (
+      <div>{row.original.humidity ? row.original.humidity : "Null "}%</div>
+    ),
   },
   {
     accessorKey: "alert_code",
