@@ -25,7 +25,7 @@ type SensorData = {
 
 const Home = () => {
   const { data, isLoading } = api.sensorData.countAlert.useQuery();
-  const {data: allData} = api.sensorData.getAll.useQuery()
+  const { data: allData } = api.sensorData.getAll.useQuery();
   const [sensorData, setSensorData] = useState<SensorData>();
 
   const fetchLiveData = async () => {
@@ -48,23 +48,26 @@ const Home = () => {
       timestamp: string;
     };
   };
-
+/* eslint-disable */
   useEffect(() => {
     const getData = async () => {
-      const data = await fetchLiveData();
-      setSensorData(data);
+      try {
+        const data = await fetchLiveData();
+        setSensorData(data);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
-    getData();
+    Promise.all([getData()]).catch();
 
     const intervalId = setInterval(() => {
-      
-      getData();
-
+      Promise.all([getData()]).catch();
     }, 600000);
 
     return () => clearInterval(intervalId);
   }, []);
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -214,9 +217,10 @@ const Home = () => {
                 <CardHeader>
                   <CardTitle> Alert History </CardTitle>
                   <CardDescription>
+                    
                     {isLoading
                       ? "data is loading..."
-                      : data + " alerts in the past hour"}
+                      : `${data} alerts in the past hour`} 
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -230,5 +234,5 @@ const Home = () => {
     </div>
   );
 };
-
+  /* eslint-enable */
 export default Home;

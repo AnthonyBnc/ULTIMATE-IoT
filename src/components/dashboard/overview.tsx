@@ -49,11 +49,13 @@ export function Overview({ data }: OverviewProps) {
           };
         }
   
-        if (entry.temperature !== null) daily[dateKey].temperature += entry.temperature;
-        if (entry.humidity !== null) daily[dateKey].humidity += entry.humidity;
-        if (entry.soil_moisture !== null) daily[dateKey].soil_moisture += entry.soil_moisture;
-  
-        daily[dateKey].count += 1;
+        const day = daily[dateKey]!; 
+
+        if (entry.temperature !== null) day.temperature += entry.temperature;
+        if (entry.humidity !== null) day.humidity += entry.humidity;
+        if (entry.soil_moisture !== null) day.soil_moisture += entry.soil_moisture;
+      
+        day.count += 1;
       });
   
       return Object.values(daily)
