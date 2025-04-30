@@ -22,13 +22,14 @@ export const EmployeeClient = ({ data }: EmployeeClientProps) => {
           title="Employee (CRUD)"
           description="Manage employee for you business"
         />
-        <Button
+        {/* no need */}
+        {/* <Button
           onClick={() => {
             router.push("/example/employees/new");
           }}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
-        </Button>
+        </Button> */}
       </div>
       <Separator />
       <div>

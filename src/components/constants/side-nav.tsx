@@ -21,18 +21,18 @@ export const NavItems: NavItem[] = [
         color: "text-red-500",
         href: "/example/employees",
       },
-      {
-        title: "Example-02",
-        icon: BookOpenCheck,
-        color: "text-red-500",
-        href: "/example/example-02",
-      },
-      {
-        title: "Example-03",
-        icon: BookOpenCheck,
-        color: "text-red-500",
-        href: "/example/example-03",
-      },
+      // {
+      //   title: "Example-02",
+      //   icon: BookOpenCheck,
+      //   color: "text-red-500",
+      //   href: "/example/example-02",
+      // },
+      // {
+      //   title: "Example-03",
+      //   icon: BookOpenCheck,
+      //   color: "text-red-500",
+      //   href: "/example/example-03",
+      // },
     ],
   },
 ];

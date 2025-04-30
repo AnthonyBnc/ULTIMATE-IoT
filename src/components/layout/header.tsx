@@ -18,7 +18,7 @@ export default function Header() {
                     className="hidden items-center justify-between gap-2 md:flex"
                 >
                     <Boxes className="h-6 w-6" />
-                    <h1 className="text-lg font-semibold">T3 app template</h1>
+                    <h1 className="text-lg font-semibold">IoT Programming</h1>
                 </Link>
                 <div className={cn("block md:!hidden")}>
                     <MobileSidebar />
@@ -26,7 +26,8 @@ export default function Header() {
 
                 <div className="flex items-center gap-2">
                     <ThemeToggle />
-                    {sessionData?.user ? (
+                    {/* no need */}
+                    {/* {sessionData?.user ? (
                         <UserNav user={sessionData.user} />
                     ) : (
                         <Button size="sm"
@@ -36,7 +37,7 @@ export default function Header() {
                         >
                             Sign In
                         </Button>
-                    )}
+                    )} */}
                 </div>
             </nav>
         </div>
