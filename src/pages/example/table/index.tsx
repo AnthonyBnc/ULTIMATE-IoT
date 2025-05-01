@@ -10,7 +10,6 @@ const Employees = () => {
 
   if (isError) return <div>Error: {error.message}</div>;
   
-  console.log(data)
 
   return (
     <div className="flex flex-col">
