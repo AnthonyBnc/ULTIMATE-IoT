@@ -14,6 +14,17 @@ import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/alert_message";
 import { api } from "@/utils/api";
 
+export const alertMessages: Record<string, string> = {
+  E001: "DHT11 sensor error",
+  E002: "Soil moisture sensor error",
+  E003: "Both sensors failed",
+  S001: "Soil moist enough - No watering needed",
+  A001: "Mildly dry soil - Short watering",
+  A002: "Dry soil - Medium watering",
+  A003: "Very dry soil - Long watering + alert",
+  A004: "Extreme heat and dryness - Extra watering",
+};
+
 type SensorData = {
   alert_code: string;
   humidity: number;
@@ -26,6 +37,11 @@ type SensorData = {
 const Home = () => {
   const { data, isLoading } = api.sensorData.countAlert.useQuery();
   const { data: allData } = api.sensorData.getAll.useQuery();
+  const { data: changesData, isLoading: changesDataIsLoading } =
+    api.sensorData.getChangesFromSecondLatest.useQuery();
+
+    console.log(changesData)
+
   const [sensorData, setSensorData] = useState<SensorData>();
 
   const fetchLiveData = async () => {
@@ -48,7 +64,7 @@ const Home = () => {
       timestamp: string;
     };
   };
-/* eslint-disable */
+  /* eslint-disable */
   useEffect(() => {
     const getData = async () => {
       try {
@@ -115,9 +131,12 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.temperature : "Loading "}°C
                   </div>
-                  {/* <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
-                  </p> */}
+                  <p className="text-xs text-muted-foreground">
+                     
+                    {changesDataIsLoading
+                      ? "Loading..."
+                      : `Detect changed from previous temperature ${changesData?.temperature}%`}
+                  </p>
                 </CardContent>
               </Card>
               <Card>
@@ -142,9 +161,12 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.humidity : "Loading "}%
                   </div>
-                  {/* <p className="text-xs text-muted-foreground">
-                    +180.1% from last month
-                  </p> */}
+                  <p className="text-xs text-muted-foreground">
+                  
+                    {changesDataIsLoading
+                      ? "Loading..."
+                      : `Detect changed from previous humidity ${changesData?.humidity}%`}
+                  </p>
                 </CardContent>
               </Card>
               <Card>
@@ -171,9 +193,12 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.humidity : "Loading "}%
                   </div>
-                  {/* <p className="text-xs text-muted-foreground">
-                    +19% from last month
-                  </p> */}
+                  <p className="text-xs text-muted-foreground">
+                  
+                    {changesDataIsLoading
+                      ? "Loading..."
+                      : `Detect changed from previous soil moisture ${changesData?.soil_moisture}% `}
+                  </p>
                 </CardContent>
               </Card>
               <Card>
@@ -198,9 +223,11 @@ const Home = () => {
                   <div className="text-2xl font-bold">
                     {sensorData ? sensorData.alert_code : "Loading "}
                   </div>
-                  {/* <p className="text-xs text-muted-foreground">
-                    +201 since last hour
-                  </p> */}
+                  <p className="text-xs text-muted-foreground">
+                    {sensorData
+                      ? alertMessages[sensorData.alert_code]
+                      : "Loading "}
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -217,10 +244,9 @@ const Home = () => {
                 <CardHeader>
                   <CardTitle> Alert History </CardTitle>
                   <CardDescription>
-                    
                     {isLoading
                       ? "data is loading..."
-                      : `${data} alerts in the past hour`} 
+                      : `${data} alerts in the past hour`}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -234,5 +260,5 @@ const Home = () => {
     </div>
   );
 };
-  /* eslint-enable */
+/* eslint-enable */
 export default Home;

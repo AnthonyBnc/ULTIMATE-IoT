@@ -1,16 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import dayjs from "dayjs";
+import { alertMessages } from "@/pages";
 
-const alertMessages: Record<string, string> = {
-  "E001": "DHT11 sensor error",
-  "E002": "Soil moisture sensor error",
-  "E003": "Both sensors failed",
-  "S001": "Soil moist enough - No watering needed",
-  "A001": "Mildly dry soil - Short watering",
-  "A002": "Dry soil - Medium watering",
-  "A003": "Very dry soil - Long watering + alert",
-  "A004": "Extreme heat and dryness - Extra watering"
-};
 
 export const sensorDataRouter = createTRPCRouter({
     getAll: publicProcedure.query(async ({ctx}) => {
@@ -50,4 +41,47 @@ export const sensorDataRouter = createTRPCRouter({
       
         return countAlert;
       }),
+
+      getChangesFromSecondLatest: publicProcedure.query(async ({ ctx }) => {
+        const data = await ctx.prisma.sensorData.findMany({
+          orderBy: {
+            timestamp: 'desc',
+          },
+          take: 2,
+        });
+      
+        if (data.length < 2) {
+          return {
+            temperature: null,
+            humidity: null,
+            soil_moisture: null,
+          };
+        }
+      
+        const latest = data[0]!;
+        const secondLatest = data[1]!;
+      
+        const calculateChange = (current: number | null, previous: number | null): number | null => {
+          if (current === null || previous === null) {
+            return null;
+          }
+      
+          if (previous === 0) {
+            if (current === 0) return 0;
+            return current > 0 ? Infinity : -Infinity;
+          }
+      
+          return ((current - previous) / Math.abs(previous)) * 100;
+        };
+      
+        return {
+          temperature: calculateChange(latest.temperature, secondLatest.temperature),
+          humidity: calculateChange(latest.humidity, secondLatest.humidity),
+          soil_moisture: calculateChange(latest.soil_moisture, secondLatest.soil_moisture),
+        };
+      }),
+      
+      
+      
+      
 })
