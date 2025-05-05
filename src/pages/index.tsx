@@ -40,7 +40,7 @@ const Home = () => {
   const { data: changesData, isLoading: changesDataIsLoading } =
     api.sensorData.getChangesFromSecondLatest.useQuery();
 
-    console.log(changesData)
+  console.log(changesData);
 
   const [sensorData, setSensorData] = useState<SensorData>();
 
@@ -132,7 +132,6 @@ const Home = () => {
                     {sensorData ? sensorData.temperature : "Loading "}°C
                   </div>
                   <p className="text-xs text-muted-foreground">
-                     
                     {changesDataIsLoading
                       ? "Loading..."
                       : `Detect changed from previous temperature ${changesData?.temperature}%`}
@@ -162,7 +161,6 @@ const Home = () => {
                     {sensorData ? sensorData.humidity : "Loading "}%
                   </div>
                   <p className="text-xs text-muted-foreground">
-                  
                     {changesDataIsLoading
                       ? "Loading..."
                       : `Detect changed from previous humidity ${changesData?.humidity}%`}
@@ -194,7 +192,6 @@ const Home = () => {
                     {sensorData ? sensorData.humidity : "Loading "}%
                   </div>
                   <p className="text-xs text-muted-foreground">
-                  
                     {changesDataIsLoading
                       ? "Loading..."
                       : `Detect changed from previous soil moisture ${changesData?.soil_moisture}% `}
@@ -251,6 +248,20 @@ const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <RecentSales />
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 ">
+              <Card className="col-span-2">
+                <CardHeader>
+                  <CardTitle>Control Pump</CardTitle>
+                  <div className="text-xs text-muted-foreground">
+                    send the command to turn on and off the pump
+                  </div>
+                </CardHeader>
+                <CardContent className="flex flex-row items-start justify-center gap-3">
+                  <Button>Send Command</Button>
+                  <div className="text-xs text-muted-foreground">pump state</div>
                 </CardContent>
               </Card>
             </div>
