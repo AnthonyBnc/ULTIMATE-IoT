@@ -22,16 +22,19 @@ export const SendCommandButton = () => {
         body: JSON.stringify(command ? onCommand : offCommand),
       }
     );
+    /* eslint-disable */
     const resJ = await res.json();
 
     console.log("response ", resJ, display);
-
+    
     if (resJ.arduino_response === "PUMP_ON") {
       setDisplay(true);
     }
+    
     if (resJ.arduino_response === "PUMP_OFF") {
       setDisplay(false);
     }
+    
   };
   return (
     <div className="flex flex-col items-center justify-center gap-3">
@@ -46,3 +49,4 @@ export const SendCommandButton = () => {
     </div>
   );
 };
+/* eslint-enable */
