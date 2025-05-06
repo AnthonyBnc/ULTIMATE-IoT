@@ -13,6 +13,7 @@ import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picke
 import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/alert_message";
 import { api } from "@/utils/api";
+import { SendCommandButton } from "@/components/dashboard/send_command_button";
 
 export const alertMessages: Record<string, string> = {
   E001: "DHT11 sensor error",
@@ -254,14 +255,14 @@ const Home = () => {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 ">
               <Card className="col-span-2">
                 <CardHeader>
-                  <CardTitle>Control Pump</CardTitle>
+                  <CardTitle>Pump Control</CardTitle>
                   <div className="text-xs text-muted-foreground">
                     send the command to turn on and off the pump
                   </div>
                 </CardHeader>
-                <CardContent className="flex flex-row items-start justify-center gap-3">
-                  <Button>Send Command</Button>
-                  <div className="text-xs text-muted-foreground">pump state</div>
+                <CardContent>
+                  <SendCommandButton/>
+                 
                 </CardContent>
               </Card>
             </div>

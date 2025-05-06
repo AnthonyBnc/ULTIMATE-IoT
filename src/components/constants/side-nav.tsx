@@ -21,12 +21,12 @@ export const NavItems: NavItem[] = [
         color: "text-red-500",
         href: "/example/table",
       },
-      {
-        title: "SendCommand",
-        icon: BookOpenCheck,
-        color: "text-red-500",
-        href: "/example/command",
-      },
+      // {
+      //   title: "SendCommand",
+      //   icon: BookOpenCheck,
+      //   color: "text-red-500",
+      //   href: "/example/command",
+      // },
       // {
       //   title: "Example-02",
       //   icon: BookOpenCheck,

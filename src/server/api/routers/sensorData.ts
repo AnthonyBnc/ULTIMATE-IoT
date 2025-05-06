@@ -75,9 +75,9 @@ export const sensorDataRouter = createTRPCRouter({
         };
       
         return {
-          temperature: calculateChange(latest.temperature, secondLatest.temperature),
-          humidity: calculateChange(latest.humidity, secondLatest.humidity),
-          soil_moisture: calculateChange(latest.soil_moisture, secondLatest.soil_moisture),
+          temperature: calculateChange(latest.temperature, secondLatest.temperature)?.toFixed(2),
+          humidity: calculateChange(latest.humidity, secondLatest.humidity)?.toFixed(2),
+          soil_moisture: calculateChange(latest.soil_moisture, secondLatest.soil_moisture)?.toFixed(2),
         };
       }),
       
