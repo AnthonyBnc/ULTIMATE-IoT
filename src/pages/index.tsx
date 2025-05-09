@@ -80,7 +80,7 @@ const Home = () => {
 
     const intervalId = setInterval(() => {
       Promise.all([getData()]).catch();
-    }, 300);
+    }, 300000);
 
     return () => clearInterval(intervalId);
   }, []);
