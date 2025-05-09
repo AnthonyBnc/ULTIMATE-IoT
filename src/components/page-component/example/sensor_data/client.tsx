@@ -1,9 +1,6 @@
 "use client";
 import React from "react";
 import { Heading } from "@/components/common/heading";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { type SensorDataColumn } from "@/lib/validators";
@@ -12,24 +9,16 @@ import { columns } from "./columns";
 interface SensorDataClientProps {
   data: SensorDataColumn[];
 }
-export const EmployeeClient = ({ data }: SensorDataClientProps) => {
-  // const router = useRouter();
+export const SensorData = ({ data }: SensorDataClientProps) => {
+  
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title="Employee (CRUD)"
-          description="Manage employee for you business"
+          title="Sensor Data History"
+          description="Manage sensor data"
         />
-        {/* no need */}
-        {/* <Button
-          onClick={() => {
-            router.push("/example/employees/new");
-          }}
-        >
-          <Plus className="mr-2 h-4 w-4" /> Add New
-        </Button> */}
       </div>
       <Separator />
       <div>

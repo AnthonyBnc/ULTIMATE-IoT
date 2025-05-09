@@ -1,10 +1,11 @@
 import React from "react";
 import { api } from "@/utils/api";
 import { Loading } from "@/components/common/loading";
-import { EmployeeClient } from "@/components/page-component/example/employee/client";
+import { SensorData } from "@/components/page-component/example/sensor_data/client";
+
 
 const Employees = () => {
-  // const { data, isLoading, isError, error } = api.employee.getAll.useQuery();
+  
   const { data, isLoading, isError, error } = api.sensorData.getAll.useQuery();
   if (isLoading) return <Loading />;
 
@@ -14,7 +15,7 @@ const Employees = () => {
   return (
     <div className="flex flex-col">
       <div className="flex-1 space-y-4 md:p-8">
-        <EmployeeClient data={data} />
+        <SensorData data={data} />
       </div>
     </div>
   );

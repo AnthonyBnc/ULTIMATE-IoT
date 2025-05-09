@@ -67,14 +67,6 @@ model VerificationToken {
 }
 
 
-model Employee {
-    id            String    @id @default(cuid())
-    firstName    String @map("first_name")
-    lastName     String @map("last_name")
-    gender       String
-    createAt DateTime @default(now()) @map("create_at")
-    updateAt DateTime @default(now()) @updatedAt @map("update_at")
-}
 model SensorData {
   id            Int      @id @default(autoincrement())
   timestamp     DateTime @default(now())

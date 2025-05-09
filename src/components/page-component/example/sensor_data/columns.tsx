@@ -3,7 +3,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type SensorDataColumn } from "@/lib/validators";
-// import { CellAction } from "./cell-action";
+
 
 export const columns: ColumnDef<SensorDataColumn>[] = [
   {
@@ -84,9 +84,5 @@ export const columns: ColumnDef<SensorDataColumn>[] = [
     header: "Alert Message",
     cell: ({ row }) => <div>{row.original.alert_message}</div>,
   },
-  // {
-  //   id: "actions",
-  //   enableSorting: false,
-  //   cell: ({ row }) => <CellAction data={row.original} />,
-  // },
+  
 ];
