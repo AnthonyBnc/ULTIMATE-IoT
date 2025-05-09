@@ -11,30 +11,33 @@ export const SendCommandButton = () => {
   };
 
   const sendCommand = async (command: boolean) => {
-    const res = await fetch(
-      `https://55fe-2405-6e00-22ee-fb7-d08-249b-c6fa-67b6.ngrok-free.app/api/control-pump`,
-      {
-        method: "POST",
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(command ? onCommand : offCommand),
-      }
-    );
-    /* eslint-disable */
-    const resJ = await res.json();
+    try {
+      const res = await fetch(
+        `https://55fe-2405-6e00-22ee-fb7-d08-249b-c6fa-67b6.ngrok-free.app/api/control-pump`,
+        {
+          method: "POST",
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(command ? onCommand : offCommand),
+        }
+      );
+      /* eslint-disable */
+      const resJ = await res.json();
 
-    console.log("response ", resJ, display);
-    
-    if (resJ.arduino_response === "PUMP_ON") {
-      setDisplay(true);
+      console.log("response ", resJ, display);
+
+      if (resJ.arduino_response === "PUMP_ON") {
+        setDisplay(true);
+      }
+
+      if (resJ.arduino_response === "PUMP_OFF") {
+        setDisplay(false);
+      }
+    } catch (e) {
+      console.log(e);
     }
-    
-    if (resJ.arduino_response === "PUMP_OFF") {
-      setDisplay(false);
-    }
-    
   };
   return (
     <div className="flex flex-col items-center justify-center gap-3">
