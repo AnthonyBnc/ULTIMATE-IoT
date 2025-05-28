@@ -22,10 +22,10 @@ export const NavItems: NavItem[] = [
         href: "/example/table",
       },
       // {
-      //   title: "SendCommand",
+      //   title: "Weather Table",
       //   icon: BookOpenCheck,
       //   color: "text-red-500",
-      //   href: "/example/command",
+      //   href: "/example/weather_table",
       // },
       // {
       //   title: "Example-02",
