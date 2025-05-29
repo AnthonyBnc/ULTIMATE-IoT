@@ -29,7 +29,7 @@ export const SendWeatherCondition = ({
   const sendCommand = async (command: boolean) => {
     try {
       const res = await fetch(
-        "https://3099-2405-6e00-28ec-20d5-1156-2234-ae90-cfad.ngrok-free.app",
+        `https://3099-2405-6e00-28ec-20d5-1156-2234-ae90-cfad.ngrok-free.app/api/control/fan/${command ? "on" : "off"}`,
         {
           method: "POST",
           headers: {
