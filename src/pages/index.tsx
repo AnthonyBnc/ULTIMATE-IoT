@@ -47,7 +47,7 @@ const Home = () => {
 
   const fetchLiveData = async () => {
     const res = await fetch(
-      `https://a4b7-2405-6e00-22ee-fb7-8892-6933-d1ae-31ac.ngrok-free.app/api/latest-data`,
+      `https://3099-2405-6e00-28ec-20d5-1156-2234-ae90-cfad.ngrok-free.app/api/latest-data`,
       {
         headers: {
           "ngrok-skip-browser-warning": "69420",
