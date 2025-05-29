@@ -14,6 +14,7 @@ import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/alert_message";
 import { api } from "@/utils/api";
 import { SendCommandButton } from "@/components/dashboard/send_command_button";
+import { SendWeatherCondition } from "@/components/dashboard/send_weather_condition";
 
 export const alertMessages: Record<string, string> = {
   E001: "DHT11 sensor error",
@@ -318,6 +319,9 @@ const Home = () => {
                             °
                           </div>
                         </div>
+                      </div>
+                      <div className="border-t pt-4">
+                        <SendWeatherCondition sensorData={sensorData ?? null} />
                       </div>
                     </div>
                   ) : (
