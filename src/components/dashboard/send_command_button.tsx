@@ -3,37 +3,24 @@ import { useState } from "react";
 
 export const SendCommandButton = () => {
   const [display, setDisplay] = useState(false);
-  const onCommand = {
-    command: "PUMP_ON",
-  };
-  const offCommand = {
-    command: "PUMP_OFF",
-  };
 
   const sendCommand = async (command: boolean) => {
     try {
-      const res = await fetch(
-        `https://a4b7-2405-6e00-22ee-fb7-8892-6933-d1ae-31ac.ngrok-free.app/api/control-pump`,
-        {
-          method: "POST",
-          headers: {
-            "ngrok-skip-browser-warning": "69420",
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(command ? onCommand : offCommand),
-        }
-      );
+      const res = await fetch(`https://3099-2405-6e00-28ec-20d5-1156-2234-ae90-cfad.ngrok-free.app/api/control/pump/${command ? "on" : "off"}`, {
+        method: "POST",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
       /* eslint-disable */
       const resJ = await res.json();
 
       console.log("response ", resJ, display);
 
-      if (resJ.arduino_response === "PUMP_ON") {
-        setDisplay(true);
-      }
-
-      if (resJ.arduino_response === "PUMP_OFF") {
-        setDisplay(false);
+      if (resJ.status === "success") {
+        setDisplay(command);
       }
     } catch (e) {
       console.log(e);
