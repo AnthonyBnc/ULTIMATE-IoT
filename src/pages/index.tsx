@@ -14,6 +14,7 @@ import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/alert_message";
 import { api } from "@/utils/api";
 import { SendCommandButton } from "@/components/dashboard/send_command_button";
+import { SendWeatherCondition } from "@/components/dashboard/send_weather_condition";
 
 export const alertMessages: Record<string, string> = {
   E001: "DHT11 sensor error",
@@ -40,6 +41,8 @@ const Home = () => {
   const { data: allData } = api.sensorData.getAll.useQuery();
   const { data: changesData, isLoading: changesDataIsLoading } =
     api.sensorData.getChangesFromSecondLatest.useQuery();
+  const { data: weatherData, isLoading: weatherIsLoading } =
+    api.weather.getWeatherData.useQuery();
 
   console.log(changesData);
 
@@ -252,8 +255,8 @@ const Home = () => {
                 </CardContent>
               </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 ">
-              <Card className="col-span-2">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
+              <Card className="col-span-2 ">
                 <CardHeader>
                   <CardTitle>Pump Control</CardTitle>
                   <div className="text-xs text-muted-foreground">
@@ -261,8 +264,69 @@ const Home = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <SendCommandButton/>
-                 
+                  <SendCommandButton />
+                </CardContent>
+              </Card>
+              <Card className="col-span-6">
+                <CardHeader>
+                  <CardTitle>Weather</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {weatherIsLoading ? (
+                    "Loading weather data..."
+                  ) : weatherData ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-6 gap-4">
+                        <div className="space-y-2">
+                          <h3 className="text-sm font-medium">
+                            Current Temperature
+                          </h3>
+                          <div className="text-2xl font-bold">
+                            {Number(
+                              weatherData.hourly.temperature2m[0]
+                            ).toFixed(1)}
+                            °C
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-sm font-medium">
+                            Precipitation Probability
+                          </h3>
+                          <div className="text-2xl font-bold">
+                            {Number(
+                              weatherData.hourly.precipitationProbability[0]
+                            ).toFixed(1)}
+                            %
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-sm font-medium">Wind Speed</h3>
+                          <div className="text-2xl font-bold">
+                            {Number(weatherData.hourly.windSpeed10m[0]).toFixed(
+                              1
+                            )}{" "}
+                            km/h
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-sm font-medium">
+                            Wind Direction
+                          </h3>
+                          <div className="text-2xl font-bold">
+                            {Number(
+                              weatherData.hourly.windDirection10m[0]
+                            ).toFixed(1)}
+                            °
+                          </div>
+                        </div>
+                      </div>
+                      <div className="border-t pt-4">
+                        <SendWeatherCondition sensorData={sensorData ?? null} />
+                      </div>
+                    </div>
+                  ) : (
+                    "Failed to load weather data"
+                  )}
                 </CardContent>
               </Card>
             </div>
@@ -272,5 +336,5 @@ const Home = () => {
     </div>
   );
 };
-/* eslint-enable */
+
 export default Home;
