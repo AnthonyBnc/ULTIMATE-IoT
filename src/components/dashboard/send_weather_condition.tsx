@@ -42,12 +42,13 @@ export const SendWeatherCondition = ({
 
       /* eslint-disable */
       const resJ = await res.json();
+      console.log("response ", resJ, fanState);
 
-      if (resJ.arduino_response === "Fan_ON") {
+      if (resJ.arduino_response === "Fan:ON") {
         setFanState(true);
       }
 
-      if (resJ.arduino_response === "Fan_OFF") {
+      if (resJ.arduino_response === "Fan:OFF") {
         setFanState(false);
       }
     } catch (error) {
@@ -95,7 +96,7 @@ export const SendWeatherCondition = ({
     checkConditionsAndControl();
 
     // Set up interval to check conditions periodically
-    const interval = setInterval(checkConditionsAndControl, 300000); // every 5 minutes
+    const interval = setInterval(checkConditionsAndControl, 1000); // every 5 minutes
 
     return () => clearInterval(interval);
   }, [weatherData, sensorData, fanState]);
