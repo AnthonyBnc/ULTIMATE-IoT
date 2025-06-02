@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
+import { Button } from "../ui/button";
 
 type SensorData = {
   temperature: number;
@@ -15,6 +16,7 @@ export const SendWeatherCondition = ({
   sensorData,
 }: SendWeatherConditionProps) => {
   const [fanState, setFanState] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const { data: weatherData } = api.weather.getWeatherData.useQuery();
 
   const fanCommand = {
@@ -29,14 +31,16 @@ export const SendWeatherCondition = ({
   const sendCommand = async (command: boolean) => {
     try {
       const res = await fetch(
-        `https://3099-2405-6e00-28ec-20d5-1156-2234-ae90-cfad.ngrok-free.app/api/control/fan/${command ? "on" : "off"}`,
+        `https://3099-2405-6e00-28ec-20d5-1156-2234-ae90-cfad.ngrok-free.app/api/control/fan/${
+          command ? "on" : "off"
+        }`,
         {
           method: "POST",
           headers: {
             "ngrok-skip-browser-warning": "69420",
             "content-type": "application/json",
           },
-          body: JSON.stringify(command ? fanCommand : fanOffCommand),
+          body: JSON.stringify({}),
         }
       );
 
@@ -44,15 +48,11 @@ export const SendWeatherCondition = ({
       const resJ = await res.json();
       console.log("response ", resJ, fanState);
 
-      if (resJ.arduino_response === "Fan:ON") {
-        setFanState(true);
+      if (resJ.status === "success") {
+        setFanState(command);
       }
-
-      if (resJ.arduino_response === "Fan:OFF") {
-        setFanState(false);
-      }
-    } catch (error) {
-      console.error("Error sending command:", error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -86,6 +86,9 @@ export const SendWeatherCondition = ({
           weatherTemp > HIGH_TEMP_THRESHOLD && windSpeed < LOW_WIND_THRESHOLD;
       }
 
+      // Set warning state based on conditions
+      setShowWarning(shouldFanBeOn !== fanState);
+
       // Only send command if state needs to change
       if (shouldFanBeOn !== fanState) {
         await sendCommand(shouldFanBeOn);
@@ -102,23 +105,51 @@ export const SendWeatherCondition = ({
   }, [weatherData, sensorData, fanState]);
 
   return (
-    <div className="flex items-center space-x-3">
-      <div
-        className={`h-3 w-3 rounded-full ${
-          fanState ? "bg-green-500" : "bg-red-500"
-        }`}
-      />
-      <div>
-        <div className="font-medium">
-          Fan Status: {fanState ? "Active" : "Inactive"}
+    <div className="space-y-4">
+      <div className="flex items-center space-x-3">
+        <div
+          className={`h-3 w-3 rounded-full ${
+            fanState ? "bg-green-500" : "bg-red-500"
+          }`}
+        />
+        <div>
+          <div className="font-medium">
+            Fan Status: {fanState ? "Active" : "Inactive"}
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {fanState
+              ? sensorData
+                ? "Fan is running (High temperature/humidity, Low wind)"
+                : "Fan is running (High temperature, Low wind - Weather API only)"
+              : "Fan is off (Normal conditions)"}
+          </div>
         </div>
-        <div className="text-sm text-muted-foreground">
-          {fanState
-            ? sensorData
-              ? "Fan is running (High temperature/humidity, Low wind)"
-              : "Fan is running (High temperature, Low wind - Weather API only)"
-            : "Fan is off (Normal conditions)"}
+      </div>
+
+      {showWarning && (
+        <div className="rounded-lg bg-yellow-100 p-4 text-yellow-800">
+          <p className="font-medium">Weather Condition Warning</p>
+          <p className="text-sm">
+            {fanState
+              ? "Current conditions are normal. Consider turning off the fan to save energy."
+              : "Current conditions suggest the fan should be turned on for better ventilation."}
+          </p>
         </div>
+      )}
+
+      <div className="flex flex-row items-center gap-3">
+        <Button
+          onClick={() => sendCommand(true)}
+          variant={fanState ? "secondary" : "default"}
+        >
+          Turn Fan On
+        </Button>
+        <Button
+          onClick={() => sendCommand(false)}
+          variant={!fanState ? "secondary" : "default"}
+        >
+          Turn Fan Off
+        </Button>
       </div>
     </div>
   );
