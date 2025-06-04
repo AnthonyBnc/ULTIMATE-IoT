@@ -6,7 +6,7 @@ import { SensorData } from "@/components/page-component/example/sensor_data/clie
 
 const Employees = () => {
   
-  const { data, isLoading, isError, error } = api.sensorData.getAll.useQuery();
+  const { data, isLoading, isError, error } = api.sensorDataGroup2.getAll.useQuery();
   if (isLoading) return <Loading />;
 
   if (isError) return <div>Error: {error.message}</div>;

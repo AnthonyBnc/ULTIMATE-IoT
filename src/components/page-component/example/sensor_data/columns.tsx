@@ -76,11 +76,17 @@ export const columns: ColumnDef<SensorDataColumn>[] = [
     ),
   },
   {
-    accessorKey: "alert_code",
-    header: "Alert Code",
+    accessorKey: "light_level",
+    header: "Light Level",
+    cell: ({ row }) => <div>{row.original.light_level ? row.original.light_level : "Null "}</div>,
   },
   {
-    id: "alert_message",
+    accessorKey: "alert_code",
+    header: "Alert Code",
+    cell: ({ row }) => <div>{row.original.alert_code ? row.original.alert_code : "Null "}</div>,
+  },
+  {
+    accessorKey: "alert_message",
     header: "Alert Message",
     cell: ({ row }) => <div>{row.original.alert_message}</div>,
   },

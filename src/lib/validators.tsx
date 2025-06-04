@@ -15,6 +15,7 @@ export const sensorDataColumn =  z.object({
   humidity: z.number().nullable(),
   soil_moisture: z.number().nullable(),
   alert_code: z.string().nullable(),
+  light_level: z.number().nullable(),
   alert_message: z.string()
 })
 

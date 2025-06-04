@@ -77,3 +77,15 @@ model SensorData {
 
   @@map("sensor_data") // maps to your actual table name in PostgreSQL
 }
+
+model SensorDataGroup2 {
+  id            Int      @id @default(autoincrement())
+  timestamp     DateTime @default(now())
+  temperature   Float?
+  humidity      Float?
+  soil_moisture Float?
+  light_level   Float?
+  alert_code    String?
+
+  @@map("sensor_data_group_2") // maps to the actual table name in PostgreSQL
+}

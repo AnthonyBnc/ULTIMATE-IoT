@@ -2,6 +2,7 @@ import { createTRPCRouter } from "@/server/api/trpc";
 
 import { sensorDataRouter } from "@/server/api/routers/sensorData";
 import { weatherRouter } from "@/server/api/routers/weather";
+import { sensorDataGroup2Router } from "@/server/api/routers/sensorDataGroup2";
 /**
  * This is the primary router for your server.
  *
@@ -9,7 +10,8 @@ import { weatherRouter } from "@/server/api/routers/weather";
  */
 export const appRouter = createTRPCRouter({
   weather: weatherRouter,
-  sensorData: sensorDataRouter
+  sensorData: sensorDataRouter,
+  sensorDataGroup2: sensorDataGroup2Router
 });
 
 // export type definition of API
