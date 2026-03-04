@@ -1,9 +1,4 @@
-# [T3 App Template]: T3 Stack with shadcn-ui Admin Layout
-
-## Overview
-
-This project is a management interface developed using the [T3 Stack](https://create.t3.gg/), encapsulated with [shadcn-ui](https://ui.shadcn.com/)
-. It aims to provide a responsive, user-friendly, and feature-rich admin interface suitable for various devices and screen sizes.
+T3 Stack with shadcn-ui Admin Layout
 
 ## Features
 
@@ -17,17 +12,9 @@ This project is a management interface developed using the [T3 Stack](https://cr
 - Global: Header, Loading and Modal
 - Select: Implement multi-select input example
 - Step Form: Implement step-form example
-- Other Features...: Waiting for further updates
-
-## Quick Start
-
-1. Clone the repository: git clone https://github.com/gaofubin/t3-app-template.git
-2. Install dependencies: npm install
-3. Start the project: npm run dev
 
 ## Dashboard Demo
 
-> Demo Link: https://t3-app-template.vercel.app/
 
 ![Alt text](demo/light.png)
 
